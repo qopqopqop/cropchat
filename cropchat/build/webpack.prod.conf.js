@@ -97,6 +97,10 @@ var webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        from: path.resolve(__dirname, '../src/', './push.js'),
+        to: config.build.assetsRoot + '/push.js',
       }
     ]),
     // service worker caching
@@ -106,6 +110,9 @@ var webpackConfig = merge(baseWebpackConfig, {
       staticFileGlobs: ['dist/**/*.{js,html,css}'],
       minify: true,
       stripPrefix: 'dist/',
+      importScripts: [
+        'push.js'
+      ],
       runtimeCaching: [{
         urlPattern: /^https:\/\/res\.cloudinary\.com\//,
         handler: 'cacheFirst'
