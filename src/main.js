@@ -7,8 +7,10 @@ import Vuefire from 'vuefire'
 import VueResource from 'vue-resource'
 import firebase from './services/firebase'
 import VueAnalytics from 'vue-analytics'
+import VueInfiniteScroll from 'vue-infinite-scroll'
 
 Vue.use(VueResource)
+Vue.use(VueInfiniteScroll)
 Vue.use(Vuefire)
 Vue.use(VueAnalytics, {
   id: 'UA-101944993-1',

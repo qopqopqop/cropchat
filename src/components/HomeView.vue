@@ -3,12 +3,14 @@
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--3-col mdl-cell mdl-cell--1-col-tablet mdl-cell--hide-phone"></div>
       <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone">
-        <div v-for="(cat, id) in getCats()" class="image-card" @click.prevent="displayDetails(id)">
-          <div class="image-card__picture">
-            <img :src="cat.url" />
-          </div>
-          <div class="image-card__comment mdl-card__actions">
-            <span>{{ cat.comment }}</span>
+        <div v-infinite-scroll="loadMoreCats" infinite-scroll-disabled="busy" infinite-scroll-distance="10">
+          <div v-for="(cat, id) in this.displayedCats" class="image-card" @click.prevent="displayDetails(id)">
+            <div class="image-card__picture">
+              <img :src="cat.url" />
+            </div>
+            <div class="image-card__comment mdl-card__actions">
+              <span>{{ cat.comment }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -21,9 +23,20 @@
 <script>
   import { reduce } from 'lodash'
   export default {
+    data () {
+      return {
+        'displayedCats': [],
+        'busy': false
+      }
+    },
     methods: {
       displayDetails (id) {
         this.$router.push({name: 'detail', params: { id: id }})
+      },
+      loadMoreCats () {
+        this.busy = true
+        this.displayedCats = this.getCats()
+        this.busy = false
       },
       getCats () {
         if (navigator.onLine) {
